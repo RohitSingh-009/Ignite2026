@@ -1,0 +1,39 @@
+from flask import Flask, render_template, request, flash, redirect
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'ignite_secret_key'
+app.config['SQLALCHEMY_DATABASE_DATA'] = 'sqlite:///registrations.db'
+db = SQLAlchemy(app)
+
+# Database Model for Students
+class Participant(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    student_id = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    event_category = db.Column(db.String(50)) # Tech, Sports, Esports
+    team_name = db.Column(db.String(100))
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    # Logic to capture form data
+    new_user = Participant(
+        name=request.form.get('name'),
+        student_id=request.form.get('sid'),
+        email=request.form.get('email'),
+        event_category=request.form.get('category'),
+        team_name=request.form.get('team')
+    )
+    db.session.add(new_user)
+    db.session.commit()
+    return "Registration Successful! See you at Ignite 2026."
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)

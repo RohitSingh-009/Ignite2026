@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignite 2026 | Where Talent Meets Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; color: white; scroll-behavior: smooth; }
+        .neon-border { border: 1px solid rgba(0, 255, 255, 0.3); box-shadow: 0 0 15px rgba(0, 255, 255, 0.1); }
+        .hero-gradient { background: linear-gradient(to bottom, #000000, #1a0b2e); }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tighter text-cyan-400">IGNITE 2026</h1>
+            <div class="space-x-6 text-sm uppercase tracking-widest">
+                <a href="#home" class="hover:text-cyan-400">Home</a>
+                <a href="#events" class="hover:text-cyan-400">Events</a>
+                <a href="#schedule" class="hover:text-cyan-400">Schedule</a>
+                <a href="#register" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-gradient h-screen flex flex-col justify-center items-center text-center px-4">
+        <h2 class="text-6xl md:text-8xl font-black mb-4 animate-pulse">IGNITE 2026</h2>
+        <p class="text-xl text-gray-400 tracking-widest">WHERE TALENT MEETS TECHNOLOGY</p>
+        <div class="mt-8 flex gap-4">
+            <button class="px-8 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition">VIEW EVENTS</button>
+        </div>
+    </section>
+
+    <section id="events" class="py-20 container mx-auto px-4">
+        <h3 class="text-3xl font-bold mb-12 text-center">EVENT CATEGORIES</h3>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="neon-border p-8 rounded-xl bg-white/5 hover:scale-105 transition-transform">
+                <h4 class="text-2xl font-bold text-cyan-400 mb-4">TECH</h4>
+                <ul class="text-gray-400 space-y-2">
+                    <li>• Hackathon 24h</li>
+                    <li>• AI Model Combat</li>
+                    <li>• UI/UX Design</li>
+                </ul>
+            </div>
+            <div class="neon-border p-8 rounded-xl bg-white/5 hover:scale-105 transition-transform border-purple-500/30">
+                <h4 class="text-2xl font-bold text-purple-400 mb-4">ESPORTS</h4>
+                <ul class="text-gray-400 space-y-2">
+                    <li>• Valorant Showdown</li>
+                    <li>• BGMI Mobile</li>
+                    <li>• FIFA Tournament</li>
+                </ul>
+            </div>
+            <div class="neon-border p-8 rounded-xl bg-white/5 hover:scale-105 transition-transform border-green-500/30">
+                <h4 class="text-2xl font-bold text-green-400 mb-4">SPORTS</h4>
+                <ul class="text-gray-400 space-y-2">
+                    <li>• Futsal</li>
+                    <li>• Basketball 3v3</li>
+                    <li>• Table Tennis</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" class="py-20 bg-white/5">
+        <div class="max-w-xl mx-auto px-4">
+            <h3 class="text-3xl font-bold mb-8 text-center">SECURE YOUR SPOT</h3>
+            <form action="/register" method="POST" class="space-y-4">
+                <input type="text" name="name" placeholder="Full Name" class="w-full p-4 bg-black border border-white/20 rounded" required>
+                <input type="text" name="sid" placeholder="College Student ID" class="w-full p-4 bg-black border border-white/20 rounded" required>
+                <select name="category" class="w-full p-4 bg-black border border-white/20 rounded">
+                    <option>Tech</option>
+                    <option>Esports</option>
+                    <option>Sports</option>
+                </select>
+                <input type="text" name="team" placeholder="Team Name (Optional)" class="w-full p-4 bg-black border border-white/20 rounded">
+                <button type="submit" class="w-full py-4 bg-cyan-500 text-black font-bold uppercase tracking-widest hover:bg-cyan-400">Submit Registration</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>
