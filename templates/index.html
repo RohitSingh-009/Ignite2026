@@ -6,62 +6,360 @@
     <title>Ignite 2026 | Where Talent Meets Tech</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+
+        .clip-path-button {
+                clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0% 30%);
+            }
+
         body { background-color: #050505; color: white; scroll-behavior: smooth; }
         .neon-border { border: 1px solid rgba(0, 255, 255, 0.3); box-shadow: 0 0 15px rgba(0, 255, 255, 0.1); }
         .hero-gradient { background: linear-gradient(to bottom, #000000, #1a0b2e); }
+
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+}
+
+.glitch-hover:hover {
+    animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+    text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+}
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+
+
+
+<canvas id="canvas" class="fixed top-0 left-0 -z-10 w-full h-full"></canvas>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function initCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        if (this.y < 0) this.y = canvas.height;
+    }
+    draw() {
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.5)'; // Cyan color
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function handleParticles() {
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 100) {
+                ctx.strokeStyle = 'rgba(6, 182, 212, 0.1)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    handleParticles();
+    requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', initCanvas);
+initCanvas();
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+animate();
+</script>
+
+
+
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 p-4">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold tracking-tighter text-cyan-400">IGNITE 2026</h1>
             <div class="space-x-6 text-sm uppercase tracking-widest">
-                <a href="#home" class="hover:text-cyan-400">Home</a>
-                <a href="#events" class="hover:text-cyan-400">Events</a>
-                <a href="#schedule" class="hover:text-cyan-400">Schedule</a>
-                <a href="#register" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded">Register</a>
+                <div class="space-x-6 text-sm uppercase tracking-widest">
+                    <a href="#home" class="hover:text-cyan-400">Home</a>
+                    <a href="#events" class="hover:text-cyan-400">Events</a>
+                    <a href="#schedule" class="hover:text-cyan-400">Schedule</a>
+                    <a href="#team" class="hover:text-cyan-400">Team</a> <a href="#register" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded">Register</a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <section id="home" class="hero-gradient h-screen flex flex-col justify-center items-center text-center px-4">
-        <h2 class="text-6xl md:text-8xl font-black mb-4 animate-pulse">IGNITE 2026</h2>
-        <p class="text-xl text-gray-400 tracking-widest">WHERE TALENT MEETS TECHNOLOGY</p>
-        <div class="mt-8 flex gap-4">
-            <button class="px-8 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition">VIEW EVENTS</button>
-        </div>
-    </section>
+   
 
-    <section id="events" class="py-20 container mx-auto px-4">
-        <h3 class="text-3xl font-bold mb-12 text-center">EVENT CATEGORIES</h3>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="neon-border p-8 rounded-xl bg-white/5 hover:scale-105 transition-transform">
-                <h4 class="text-2xl font-bold text-cyan-400 mb-4">TECH</h4>
-                <ul class="text-gray-400 space-y-2">
-                    <li>• Hackathon 24h</li>
-                    <li>• AI Model Combat</li>
-                    <li>• UI/UX Design</li>
-                </ul>
-            </div>
-            <div class="neon-border p-8 rounded-xl bg-white/5 hover:scale-105 transition-transform border-purple-500/30">
-                <h4 class="text-2xl font-bold text-purple-400 mb-4">ESPORTS</h4>
-                <ul class="text-gray-400 space-y-2">
-                    <li>• Valorant Showdown</li>
-                    <li>• BGMI Mobile</li>
-                    <li>• FIFA Tournament</li>
-                </ul>
-            </div>
-            <div class="neon-border p-8 rounded-xl bg-white/5 hover:scale-105 transition-transform border-green-500/30">
-                <h4 class="text-2xl font-bold text-green-400 mb-4">SPORTS</h4>
-                <ul class="text-gray-400 space-y-2">
-                    <li>• Futsal</li>
-                    <li>• Basketball 3v3</li>
-                    <li>• Table Tennis</li>
-                </ul>
-            </div>
+<section id="home" class="min-h-screen bg-[#050505] flex flex-col items-center justify-center pt-20 px-4">
+    
+    <div class="mb-10 flex items-center gap-4 border border-cyan-500/30 px-6 py-2 rounded-full text-[10px] tracking-[0.2em] font-mono">
+        <span class="flex h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></span>
+        <span class="text-cyan-500 uppercase">Status: Online</span>
+        <span class="text-white/20">|</span>
+        <span class="text-white/50 uppercase">V2.0_Stable</span>
+    </div>
+
+    <div class="relative text-center">
+        <h1 class="text-7xl md:text-9xl font-black text-white tracking-tighter leading-none mb-2">
+            IGNITE <span class="text-cyan-400">2026</span>
+        </h1>
+        <p class="text-cyan-500/50 font-mono tracking-[0.5em] text-xs uppercase text-right mr-2">System_Online</p>
+    </div>
+
+    <p class="text-gray-400 mt-6 text-lg md:text-xl font-light tracking-wide">
+        Fragments of Infinity <span class="text-white font-bold">Future Innovators.</span>
+    </p>
+
+    <div class="mt-8 border border-cyan-500/20 w-full max-w-2xl py-3 text-center">
+        <p class="text-[10px] font-mono text-cyan-500/80 tracking-[0.3em] uppercase">
+            >_ Protocol: Innovate_Compete_Explore
+        </p>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-2 gap-8 w-full max-w-4xl">
+        <div class="border border-white/10 bg-white/5 p-6 flex items-center justify-center gap-4 rounded-lg">
+            <span class="text-cyan-400 text-2xl">📅</span>
+            <span class="text-2xl font-bold tracking-widest text-white uppercase">15-17 Mar 2026</span>
         </div>
-    </section>
+
+        <div id="countdown" class="border border-white/10 bg-white/5 p-6 flex justify-around items-center rounded-lg text-white font-mono">
+            </div>
+    </div>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-6">
+        <a href="#register" class="bg-cyan-400 hover:bg-cyan-300 text-black font-black py-4 px-12 clip-path-button uppercase tracking-widest transition-all">
+            Register Now
+        </a>
+        <button class="border border-white/20 px-8 py-4 flex items-center gap-3 hover:bg-white/5 transition-all text-sm uppercase tracking-widest text-gray-300">
+            Watch Trailer <span class="text-cyan-400">◇</span>
+        </button>
+    </div>
+</section>
+
+
+
+
+
+<section id="events" class="py-20 bg-[#050505]">
+    <div class="container mx-auto px-4">
+        
+        <div class="mb-12">
+            <h3 class="text-cyan-400 font-mono text-xs tracking-[0.4em] uppercase mb-2">// CATEGORY_SELECT</h3>
+            <h2 class="text-4xl font-black text-white tracking-tighter">EVENT ARCHIVE</h2>
+        </div>
+
+        <div class="flex flex-wrap gap-4 mb-12 border-b border-white/10 pb-6">
+            <button onclick="filterEvents('all')" class="filter-btn active-filter text-xs font-mono tracking-widest px-6 py-2 border border-cyan-500/50 text-cyan-400">ALL_MODES</button>
+            <button onclick="filterEvents('tech')" class="filter-btn text-xs font-mono tracking-widest px-6 py-2 border border-white/10 text-gray-500 hover:text-white transition">TECHNICAL</button>
+            <button onclick="filterEvents('non-tech')" class="filter-btn text-xs font-mono tracking-widest px-6 py-2 border border-white/10 text-gray-500 hover:text-white transition">NON-TECHNICAL</button>
+            <button onclick="filterEvents('esports')" class="filter-btn text-xs font-mono tracking-widest px-6 py-2 border border-white/10 text-gray-500 hover:text-white transition">ESPORTS</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="eventGrid">
+            
+            <div class="event-card tech border border-white/10 bg-white/[0.02] p-8 hover:border-cyan-500/50 transition-all group">
+                <div class="flex justify-between text-[10px] font-mono mb-6">
+                    <span class="text-cyan-500">// TECHNICAL</span>
+                    <span class="text-white/20">#001</span>
+                </div>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">CODE_SPARK</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Fast-paced debugging and logic-solving competition for solo developers.</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <span class="text-[10px] font-mono text-gray-400 uppercase">Fee: ₹150</span>
+                    <a href="#register" class="text-[10px] font-mono bg-cyan-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition">Register</a>
+                </div>
+            </div>
+
+            <div class="event-card esports border border-white/10 bg-white/[0.02] p-8 hover:border-purple-500/50 transition-all group">
+                <div class="flex justify-between text-[10px] font-mono mb-6">
+                    <span class="text-purple-500">// ESPORTS</span>
+                    <span class="text-white/20">#002</span>
+                </div>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors">VALORANT_OPS</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Tactical 5v5 showdown. Prove your precision and team coordination.</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <span class="text-[10px] font-mono text-gray-400 uppercase">Fee: ₹500 (Team)</span>
+                    <a href="#register" class="text-[10px] font-mono bg-purple-500 text-white px-4 py-2 font-bold uppercase hover:bg-white hover:text-black transition">Register</a>
+                </div>
+            </div>
+
+            <div class="event-card non-tech border border-white/10 bg-white/[0.02] p-8 hover:border-green-500/50 transition-all group">
+                <div class="flex justify-between text-[10px] font-mono mb-6">
+                    <span class="text-green-500">// NON-TECHNICAL</span>
+                    <span class="text-white/20">#003</span>
+                </div>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors">TREASURE_LOG</h4>
+                <p class="text-gray-400 text-sm mb-8 leading-relaxed">Campus-wide scavenger hunt using cryptic riddles and tech clues.</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <span class="text-[10px] font-mono text-gray-400 uppercase">Fee: Free</span>
+                    <a href="#register" class="text-[10px] font-mono bg-green-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition">Register</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+function filterEvents(category) {
+    const cards = document.querySelectorAll('.event-card');
+    const buttons = document.querySelectorAll('.filter-btn');
+    
+    // Update Button Styles
+    buttons.forEach(btn => {
+        btn.classList.remove('active-filter', 'text-cyan-400', 'border-cyan-500/50');
+        btn.classList.add('text-gray-500', 'border-white/10');
+    });
+
+    // Apply active style to clicked button
+    event.currentTarget.classList.add('active-filter', 'text-cyan-400', 'border-cyan-500/50');
+    event.currentTarget.classList.remove('text-gray-500', 'border-white/10');
+
+    // Filter Logic
+    cards.forEach(card => {
+        if (category === 'all') {
+            card.style.display = 'block';
+        } else if (card.classList.contains(category)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+
+<style>
+    .active-filter {
+        border-color: rgba(6, 182, 212, 0.5) !important;
+        color: #22d3ee !important;
+    }
+</style>
+
+
+
+
+
+<section id="schedule" class="py-20 bg-black/50">
+    <div class="container mx-auto px-4">
+        <h3 class="text-4xl font-black mb-16 text-center tracking-tighter text-cyan-400">
+            EVENT TIMELINE
+        </h3>
+        
+        <div class="max-w-3xl mx-auto border-l-2 border-cyan-500/20 ml-6 md:ml-auto relative">
+            
+            <div class="mb-12 ml-8 relative">
+                <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-cyan-500 shadow-[0_0_15px_#06b6d4]"></div>
+                
+                <h4 class="text-2xl font-bold text-white uppercase tracking-widest">Day 01: The Spark</h4>
+                <div class="mt-4 p-6 bg-white/5 border border-white/10 rounded-xl hover:border-cyan-500/50 transition-all">
+                    <p class="text-cyan-400 font-mono">09:00 AM — Opening Ceremony</p>
+                    <p class="text-gray-400 mt-2">Kickoff at the Main Auditorium with the Dean.</p>
+                    <hr class="my-3 border-white/5">
+                    <p class="text-cyan-400 font-mono">11:30 AM — Tech Expo Begins</p>
+                    <p class="text-gray-400">Showcasing the best college projects and AI models.</p>
+                </div>
+            </div>
+
+            <div class="mb-12 ml-8 relative">
+                <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-purple-500 shadow-[0_0_15px_#a855f7]"></div>
+                
+                <h4 class="text-2xl font-bold text-white uppercase tracking-widest">Day 02: The Arena</h4>
+                <div class="mt-4 p-6 bg-white/5 border border-white/10 rounded-xl hover:border-purple-500/50 transition-all">
+                    <p class="text-purple-400 font-mono">10:00 AM — Esports Qualifiers</p>
+                    <p class="text-gray-400 mt-2">Valorant & BGMI heat begins in the Gaming Hub.</p>
+                    <hr class="my-3 border-white/5">
+                    <p class="text-purple-400 font-mono">02:00 PM — Futsal Mania</p>
+                    <p class="text-gray-400">Quarter-finals at the College Turf.</p>
+                </div>
+            </div>
+
+            <div class="mb-12 ml-8 relative">
+                <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-green-500 shadow-[0_0_15px_#22c55e]"></div>
+                
+                <h4 class="text-2xl font-bold text-white uppercase tracking-widest">Day 03: The Finale</h4>
+                <div class="mt-4 p-6 bg-white/5 border border-white/10 rounded-xl hover:border-green-500/50 transition-all">
+                    <p class="text-green-400 font-mono">03:00 PM — Grand Finals</p>
+                    <p class="text-gray-400 mt-2">The ultimate showdown across all categories.</p>
+                    <hr class="my-3 border-white/5">
+                    <p class="text-green-400 font-mono">07:00 PM — Award Night & DJ</p>
+                    <p class="text-gray-400">Celebrating the winners with music and trophies.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<section id="team" class="py-20 container mx-auto px-4">
+    <h3 class="text-3xl font-bold mb-12 text-center text-cyan-400 uppercase tracking-widest">THE ORGANIZERS</h3>
+    
+    <div class="grid md:grid-cols-3 gap-10 max-w-5xl mx-auto">
+        
+        <div class="group relative bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-cyan-500/50 transition-all text-center">
+            <div class="w-24 h-24 bg-cyan-500/20 rounded-full mx-auto mb-4 flex items-center justify-center border border-cyan-500/30 group-hover:shadow-[0_0_20px_#06b6d4]">
+                <span class="text-3xl">👩‍💻</span>
+            </div>
+            <h4 class="text-xl font-bold">Alena</h4>
+            <p class="text-cyan-400 text-sm uppercase">Lead Developer</p>
+            <p class="text-gray-500 mt-2 text-xs">Technical Head & Web Architect</p>
+        </div>
+
+        <div class="group relative bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all text-center">
+            <div class="w-24 h-24 bg-purple-500/20 rounded-full mx-auto mb-4 flex items-center justify-center border border-purple-500/30 group-hover:shadow-[0_0_20px_#a855f7]">
+                <span class="text-3xl">🎮</span>
+            </div>
+            <h4 class="text-xl font-bold">Esports Lead</h4>
+            <p class="text-purple-400 text-sm uppercase">Gaming Coordinator</p>
+            <p class="text-gray-500 mt-2 text-xs">Tournament Ops & Brackets</p>
+        </div>
+
+        <div class="group relative bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-green-500/50 transition-all text-center">
+            <div class="w-24 h-24 bg-green-500/20 rounded-full mx-auto mb-4 flex items-center justify-center border border-green-500/30 group-hover:shadow-[0_0_20px_#22c55e]">
+                <span class="text-3xl">⚽</span>
+            </div>
+            <h4 class="text-xl font-bold">Sports Head</h4>
+            <p class="text-green-400 text-sm uppercase">Event Manager</p>
+            <p class="text-gray-500 mt-2 text-xs">On-ground Coordination</p>
+        </div>
+
+    </div>
+</section>
+
 
     <section id="register" class="py-20 bg-white/5">
         <div class="max-w-xl mx-auto px-4">
@@ -88,15 +386,51 @@
                 </optgroup>
             </select>
 
+
+
+
             <input type="text" name="team" placeholder="Team Name (Leave blank for Solo)" class="w-full p-4 bg-black border border-white/20 rounded focus:border-purple-500 outline-none">
             
+            <form id="registrationForm" class="space-y-4">
             <button type="submit" class="w-full py-4 bg-cyan-500 text-black font-bold uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)]">
                 Register for Ignite 2026
             </button>
-        </form>
-        </div>
-    </section>
-<script>
+            </form>
+
+        <script>
+        // Add this inside your existing registration <script> tag
+const successSound = new Audio('https://www.soundjay.com/buttons/sounds/button-10.mp3');
+
+document.getElementById('registrationForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    const response = await fetch('/register', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (response.ok) {
+        // PLAY THE SOUND HERE
+        successSound.play();
+
+        Swal.fire({
+            title: 'Welcome to the Tribe!',
+            text: 'Your registration for Ignite 2026 is confirmed.',
+            icon: 'success',
+            background: '#0f172a',
+            color: '#22d3ee',
+            confirmButtonColor: '#0891b2',
+            confirmButtonText: 'Let\'s Go!'
+        });
+        e.target.reset();
+    }
+};
+            </script>
+            </form>
+            </div>
+        </section>
+        <script>
     // Set the date we're counting down to
     const countDownDate = new Date("March 15, 2026 09:00:00").getTime();
 
@@ -112,5 +446,37 @@
         document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m ";
     }, 1000);
 </script>
+
+
+<footer class="py-12 bg-black border-t border-white/10 mt-20">
+    <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12 text-center md:text-left">
+        <div>
+            <h4 class="text-2xl font-black text-cyan-400">IGNITE 2026</h4>
+            <p class="text-gray-500 mt-2">The ultimate fusion of talent and technology.</p>
+        </div>
+        
+        <div>
+            <h5 class="font-bold text-white mb-4 uppercase tracking-widest">Location</h5>
+            <p class="text-gray-400">Your College Name<br>Engineering Block, Phase 1<br>City, State, Zip Code</p>
+        </div>
+
+        <div>
+            <h5 class="font-bold text-white mb-4 uppercase tracking-widest">Connect With Us</h5>
+            <div class="flex justify-center md:justify-start gap-6 text-2xl">
+                <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">📸</a>
+                <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">🐦</a>
+                <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">🔗</a>
+            </div>
+        </div>
+    </div>
+    <div class="text-center text-gray-600 text-xs mt-12 border-t border-white/5 pt-6">
+        &copy; 2026 Ignite Fest | Designed with ❤️ by Alena
+    </div>
+</footer>
+
+
+
+
+
 </body>
 </html>
