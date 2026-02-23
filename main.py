@@ -3,7 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ignite_secret_key'
-app.config['SQLALCHEMY_DATABASE_DATA'] = 'sqlite:///registrations.db'
+
+# ✅ FIX HERE
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///registrations.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 # Database Model for Students
@@ -12,7 +16,7 @@ class Participant(db.Model):
     name = db.Column(db.String(100), nullable=False)
     student_id = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    event_category = db.Column(db.String(50)) # Tech, Sports, Esports
+    event_category = db.Column(db.String(50))  # Tech, Sports, Esports
     team_name = db.Column(db.String(100))
 
 @app.route('/')
@@ -21,7 +25,6 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register():
-    # Logic to capture form data
     new_user = Participant(
         name=request.form.get('name'),
         student_id=request.form.get('sid'),
@@ -32,6 +35,13 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     return "Registration Successful! See you at Ignite 2026."
+
+# Add 'render_template' to your imports if not already there
+@app.route('/admin-ignite')
+def admin_dashboard():
+    # Fetch all participants from the database
+    all_participants = Participant.query.all()
+    return render_template('admin.html', participants=all_participants)
 
 if __name__ == '__main__':
     with app.app_context():
