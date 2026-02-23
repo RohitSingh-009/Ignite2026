@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, flash, redirect, abort
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ignite_secret_key'
@@ -36,10 +37,21 @@ def register():
     db.session.commit()
     return "Registration Successful! See you at Ignite 2026."
 
-# Add 'render_template' to your imports if not already there
+
+
+
+# Set your secret password here
+ADMIN_PASSWORD = "IgniteAdmin2026"
+
 @app.route('/admin-ignite')
 def admin_dashboard():
-    # Fetch all participants from the database
+    # Check if the URL has ?password=IgniteAdmin2026
+    entered_password = request.args.get('password')
+    
+    if entered_password != ADMIN_PASSWORD:
+        # If password is wrong, show a 403 Forbidden error
+        abort(403) 
+    
     all_participants = Participant.query.all()
     return render_template('admin.html', participants=all_participants)
 
