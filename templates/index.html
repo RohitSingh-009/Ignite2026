@@ -6,6 +6,20 @@
     <title>Ignite 2026 | Where Talent Meets Tech</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+                /* Hide all sections except the home section by default */
+        section:not(#home) {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Class to show a section when active */
+        section.active-section {
+            display: block !important;
+            opacity: 1;
+        }
+        
+
 
         .clip-path-button {
                 clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0% 30%);
@@ -28,7 +42,75 @@
 .glitch-hover:hover {
     animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
     text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+
+
+.clip-path-button {
+        clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0% 30%);
+    }
+    
+    
 }
+
+.glitch {
+  position: relative;
+  color: white;
+  display: inline-block;
+  animation: flicker 2s infinite;
+}
+
+/* Red & Blue glitch layers */
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.glitch::before {
+  color: #00ffff;
+  z-index: -1;
+  animation: glitchTop 1s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  color: #ff00ff;
+  z-index: -2;
+  animation: glitchBottom 1s infinite linear alternate-reverse;
+}
+
+/* Top glitch */
+@keyframes glitchTop {
+  0% { clip-path: inset(0 0 85% 0); transform: translate(-2px, -2px); }
+  25% { clip-path: inset(0 0 60% 0); transform: translate(2px, 2px); }
+  50% { clip-path: inset(0 0 40% 0); transform: translate(-2px, 1px); }
+  75% { clip-path: inset(0 0 70% 0); transform: translate(2px, -1px); }
+  100% { clip-path: inset(0 0 85% 0); transform: translate(0, 0); }
+}
+
+/* Bottom glitch */
+@keyframes glitchBottom {
+  0% { clip-path: inset(85% 0 0 0); transform: translate(2px, 2px); }
+  25% { clip-path: inset(60% 0 0 0); transform: translate(-2px, -2px); }
+  50% { clip-path: inset(40% 0 0 0); transform: translate(1px, -2px); }
+  75% { clip-path: inset(70% 0 0 0); transform: translate(-1px, 2px); }
+  100% { clip-path: inset(85% 0 0 0); transform: translate(0, 0); }
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+
+
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -102,6 +184,26 @@ window.addEventListener('resize', initCanvas);
 initCanvas();
 for (let i = 0; i < 80; i++) particles.push(new Particle());
 animate();
+
+
+
+function searchEvents() {
+    // 1. Get the search input value
+    const input = document.getElementById('eventSearch').value.toUpperCase();
+    const eventGrid = document.getElementById('eventGrid');
+    const cards = eventGrid.getElementsByClassName('event-card');
+
+    // 2. Loop through all cards and hide those that don't match the search query
+    for (let i = 0; i < cards.length; i++) {
+        const title = cards[i].querySelector('h4').innerText || cards[i].querySelector('h4').textContent;
+        
+        if (title.toUpperCase().indexOf(input) > -1) {
+            cards[i].style.display = ""; // Show card
+        } else {
+            cards[i].style.display = "none"; // Hide card
+        }
+    }
+}
 </script>
 
 
@@ -111,63 +213,188 @@ animate();
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold tracking-tighter text-cyan-400">IGNITE 2026</h1>
             <div class="space-x-6 text-sm uppercase tracking-widest">
-                <div class="space-x-6 text-sm uppercase tracking-widest">
-                    <a href="#home" class="hover:text-cyan-400">Home</a>
-                    <a href="#events" class="hover:text-cyan-400">Events</a>
-                    <a href="#schedule" class="hover:text-cyan-400">Schedule</a>
-                    <a href="#team" class="hover:text-cyan-400">Team</a> <a href="#register" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded">Register</a>
-                </div>
+                <nav class="flex gap-8 font-mono text-xs tracking-widest">
+                        <a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-cyan-400">// HOME</a>
+                        <a href="javascript:void(0)" onclick="showPage('events')" class="hover:text-cyan-400">// EVENTS</a>
+                        <a href="javascript:void(0)" onclick="showPage('schedule')" class="hover:text-cyan-400">// SCHEDULE</a>
+                        <a href="javascript:void(0)" onclick="showPage('team')" class="hover:text-cyan-400">// TEAM</a>
+                        <a href="javascript:void(0)" onclick="showPage('about')" class="hover:text-cyan-400">// ABOUT</a> </nav>
+                </nav>  
             </div>
         </div>
     </nav>
 
    
+<section id="home" class="bg-[#050505] text-white">
 
-<section id="home" class="min-h-screen bg-[#050505] flex flex-col items-center justify-center pt-20 px-4">
-    
-    <div class="mb-10 flex items-center gap-4 border border-cyan-500/30 px-6 py-2 rounded-full text-[10px] tracking-[0.2em] font-mono">
-        <span class="flex h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></span>
-        <span class="text-cyan-500 uppercase">Status: Online</span>
-        <span class="text-white/20">|</span>
-        <span class="text-white/50 uppercase">V2.0_Stable</span>
-    </div>
+    <!-- HERO SECTION -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4 pt-20">
 
-    <div class="relative text-center">
-        <h1 class="text-7xl md:text-9xl font-black text-white tracking-tighter leading-none mb-2">
-            IGNITE <span class="text-cyan-400">2026</span>
-        </h1>
-        <p class="text-cyan-500/50 font-mono tracking-[0.5em] text-xs uppercase text-right mr-2">System_Online</p>
-    </div>
-
-    <p class="text-gray-400 mt-6 text-lg md:text-xl font-light tracking-wide">
-        Fragments of Infinity <span class="text-white font-bold">Future Innovators.</span>
-    </p>
-
-    <div class="mt-8 border border-cyan-500/20 w-full max-w-2xl py-3 text-center">
-        <p class="text-[10px] font-mono text-cyan-500/80 tracking-[0.3em] uppercase">
-            >_ Protocol: Innovate_Compete_Explore
-        </p>
-    </div>
-
-    <div class="mt-10 grid md:grid-cols-2 gap-8 w-full max-w-4xl">
-        <div class="border border-white/10 bg-white/5 p-6 flex items-center justify-center gap-4 rounded-lg">
-            <span class="text-cyan-400 text-2xl">📅</span>
-            <span class="text-2xl font-bold tracking-widest text-white uppercase">15-17 Mar 2026</span>
+        <!-- Status Badge -->
+        <div class="mb-10 flex items-center gap-4 border border-cyan-500/30 px-6 py-2 rounded-full text-[10px] tracking-[0.2em] font-mono">
+            <span class="flex h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></span>
+            <span class="text-cyan-500 uppercase">Status: Online</span>
+            <span class="text-white/20">|</span>
+            <span class="text-white/50 uppercase">V3.0_STABLE</span>
         </div>
 
-        <div id="countdown" class="border border-white/10 bg-white/5 p-6 flex justify-around items-center rounded-lg text-white font-mono">
+        <!-- Title -->
+        <div class="relative text-center">
+            <h1 class="text-7xl md:text-9xl font-black text-white tracking-tighter leading-none mb-2">
+                IGNITE <span class="text-cyan-400">2026</span>
+            </h1>
+            <p class="text-cyan-500/50 font-mono tracking-[0.5em] text-[10px] uppercase text-right mr-2">
+                SYSTEM_ONLINE
+            </p>
+        </div>
+
+        <!-- Date + Countdown -->
+        <div class="mt-16 flex flex-col md:flex-row gap-8 w-full max-w-4xl justify-center items-center">
+
+            <!-- Date Box -->
+            <div class="border border-white/10 bg-white/5 px-10 py-6 
+                        flex items-center gap-4 rounded-lg">
+                <span class="text-cyan-400 text-2xl">📅</span>
+                <span class="text-2xl font-bold tracking-widest uppercase">
+                    15-17 Mar 2026
+                </span>
             </div>
+
+            <!-- Countdown Box -->
+            <div id="countdown"
+                 class="border border-white/10 bg-white/5 px-10 py-6 
+                        flex justify-center items-center rounded-lg 
+                        font-mono text-xl text-cyan-400">
+                00d : 00h : 00m : 00s
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-12 flex flex-wrap justify-center gap-6">
+            <a href="javascript:void(0)" onclick="showPage('register')"
+               class="bg-cyan-400 hover:bg-cyan-300 text-black font-black py-4 px-12 uppercase tracking-widest transition-all">
+                Register Now
+            </a>
+
+            <button class="border border-white/20 px-8 py-4 flex items-center gap-3 hover:bg-white/5 transition-all text-sm uppercase tracking-widest text-gray-300">
+                Watch Trailer <span class="text-cyan-400">◇</span>
+            </button>
+        </div>
+
+        <!-- Scroll -->
+        <div class="mt-20 animate-bounce text-cyan-500 opacity-50 text-center">
+            <p class="text-[18px] font-mono tracking-widest uppercase mb-2">
+                Scroll to Explore
+            </p>
+            ↓
+        </div>
+
     </div>
 
-    <div class="mt-12 flex flex-wrap justify-center gap-6">
-        <a href="#register" class="bg-cyan-400 hover:bg-cyan-300 text-black font-black py-4 px-12 clip-path-button uppercase tracking-widest transition-all">
-            Register Now
-        </a>
-        <button class="border border-white/20 px-8 py-4 flex items-center gap-3 hover:bg-white/5 transition-all text-sm uppercase tracking-widest text-gray-300">
-            Watch Trailer <span class="text-cyan-400">◇</span>
-        </button>
+
+    <!-- STORY SECTION -->
+    <div class="py-32 container mx-auto px-6 md:px-12 lg:px-24 border-t border-white/5">
+
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-cyan-500/20 rounded-2xl blur group-hover:opacity-40 transition"></div>
+                <img src="Maliba.jpg" alt="Our Story"
+                     class="relative rounded-2xl grayscale hover:grayscale-0 transition duration-500 object-cover w-full h-[500px] border border-white/10">
+            </div>
+
+            <div class="space-y-8">
+                <h2 class="text-6xl md:text-7xl font-black tracking-tighter">
+                    Our <span class="text-cyan-400">Story</span>
+                </h2>
+
+                <div class="bg-white/5 border-l-4 border-cyan-500 p-8 rounded-r-xl">
+                    <p class="text-gray-300 leading-relaxed text-lg italic font-light">
+                        "Ignite is the flagship tech fest born from innovation, curiosity,
+                        and the collective spirit of Future Innovators."
+                    </p>
+                </div>
+
+                <div class="space-y-6 text-gray-400 leading-relaxed font-light">
+                    <p>
+                        What began as a student-driven initiative has grown into a platform
+                        reflecting technical excellence and creativity.
+                    </p>
+                    <p>
+                        The journey started with a vision to go beyond conventional learning,
+                        creating an environment where ideas are explored and skills are tested.
+                    </p>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+
+    <!-- NEW GET IN TOUCH SECTION -->
+    <div class="py-32 px-6 border-t border-white/5">
+
+        <div class="max-w-6xl mx-auto rounded-3xl 
+                    bg-gradient-to-r from-cyan-500/10 via-transparent to-purple-500/10
+                    border border-white/10 p-12">
+
+            <!-- Heading -->
+            <div class="text-center mb-14">
+                <h2 class="text-4xl md:text-5xl font-bold">
+                    Get in <span class="text-cyan-400">Touch</span>
+                </h2>
+                <p class="text-white/60 mt-4 max-w-2xl mx-auto">
+                    Have questions about registration or events? Reach out to our team and we’ll assist you.
+                </p>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <!-- Email -->
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 text-center backdrop-blur-lg hover:border-cyan-400/40 transition">
+                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-white/10">
+                        <span class="text-cyan-400 text-2xl">✉️</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Email Us</h3>
+                    <p class="text-white/60">ignite2026@gmail.com</p>
+                </div>
+
+                <!-- Call -->
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 text-center backdrop-blur-lg hover:border-cyan-400/40 transition">
+                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-white/10">
+                        <span class="text-cyan-400 text-2xl">📞</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Call Us</h3>
+                    <p class="text-white/60">+91 9XXXXXXXXX</p>
+                    <p class="text-white/60">+91 8XXXXXXXXX</p>
+                </div>
+
+                <!-- Location -->
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 text-center backdrop-blur-lg hover:border-cyan-400/40 transition">
+                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-white/10">
+                        <span class="text-cyan-400 text-2xl">📍</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Our Location</h3>
+                    <p class="text-white/60">
+                        Chhotubhai Gopalbhai Patel Institute of Technology, Bardoli, Gujarat, India
+        
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </section>
+
+  
+
+
+
+
 
 
 
@@ -181,6 +408,13 @@ animate();
             <h2 class="text-4xl font-black text-white tracking-tighter">EVENT ARCHIVE</h2>
         </div>
 
+        <div class="max-w-md mx-auto mb-10 relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-500/50 font-mono text-xs">SEARCH_EXE ></span>
+            <input type="text" id="eventSearch" onkeyup="searchEvents()" 
+                placeholder="TYPE EVENT NAME..." 
+                class="w-full bg-white/5 border border-white/10 rounded-lg py-4 pl-32 pr-4 text-white font-mono text-sm focus:outline-none focus:border-cyan-500/50 transition-all uppercase tracking-widest">
+        </div>
+
         <div class="flex flex-wrap gap-4 mb-12 border-b border-white/10 pb-6">
             <button onclick="filterEvents('all')" class="filter-btn active-filter text-xs font-mono tracking-widest px-6 py-2 border border-cyan-500/50 text-cyan-400">ALL_MODES</button>
             <button onclick="filterEvents('tech')" class="filter-btn text-xs font-mono tracking-widest px-6 py-2 border border-white/10 text-gray-500 hover:text-white transition">TECHNICAL</button>
@@ -189,43 +423,82 @@ animate();
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="eventGrid">
-            
+
             <div class="event-card tech border border-white/10 bg-white/[0.02] p-8 hover:border-cyan-500/50 transition-all group">
                 <div class="flex justify-between text-[10px] font-mono mb-6">
                     <span class="text-cyan-500">// TECHNICAL</span>
-                    <span class="text-white/20">#001</span>
+                    <span class="text-white/20">#TEC_001</span>
                 </div>
-                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">CODE_SPARK</h4>
-                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Fast-paced debugging and logic-solving competition for solo developers.</p>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400">CODE WAR</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">A solo deathmatch of competitive programming. Solve 5 problems in 60 minutes.</p>
                 <div class="flex justify-between items-center border-t border-white/5 pt-6">
-                    <span class="text-[10px] font-mono text-gray-400 uppercase">Fee: ₹150</span>
-                    <a href="#register" class="text-[10px] font-mono bg-cyan-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition">Register</a>
+                    <span class="text-[20px] font-mono text-gray-400 uppercase">Fee: ₹100</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAzDcy67fAHLwjL-xpZ20ZvuJExv0TVWeHVh24Fkv0mkV8uA/viewform?usp=publish-editor" target="_blank" class="text-[10px] font-mono bg-cyan-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition-all">Register</a>
+                </div>
+            </div>
+
+            <div class="event-card tech border border-white/10 bg-white/[0.02] p-8 hover:border-cyan-500/50 transition-all group">
+                <div class="flex justify-between text-[10px] font-mono mb-6">
+                    <span class="text-cyan-500">// TECHNICAL</span>
+                    <span class="text-white/20">#TEC_002</span>
+                </div>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400">FIX THE CODE</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Find and repair intentional bugs in broken code snippets across various languages.</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <span class="text-[20px] font-mono text-gray-400 uppercase">Fee: ₹150</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAzDcy67fAHLwjL-xpZ20ZvuJExv0TVWeHVh24Fkv0mkV8uA/viewform?usp=publish-editor" target="_blank" class="text-[10px] font-mono bg-cyan-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition-all">Register</a>
                 </div>
             </div>
 
             <div class="event-card esports border border-white/10 bg-white/[0.02] p-8 hover:border-purple-500/50 transition-all group">
                 <div class="flex justify-between text-[10px] font-mono mb-6">
                     <span class="text-purple-500">// ESPORTS</span>
-                    <span class="text-white/20">#002</span>
+                    <span class="text-white/20">#ESP_001</span>
                 </div>
-                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors">VALORANT_OPS</h4>
-                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Tactical 5v5 showdown. Prove your precision and team coordination.</p>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400">VALORANT OPS</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Tactical 5v5 FPS tournament. Single elimination bracket with a prize pool.</p>
                 <div class="flex justify-between items-center border-t border-white/5 pt-6">
-                    <span class="text-[10px] font-mono text-gray-400 uppercase">Fee: ₹500 (Team)</span>
-                    <a href="#register" class="text-[10px] font-mono bg-purple-500 text-white px-4 py-2 font-bold uppercase hover:bg-white hover:text-black transition">Register</a>
+                    <span class="text-[20px] font-mono text-gray-400 uppercase">Fee: ₹500/Team</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAzDcy67fAHLwjL-xpZ20ZvuJExv0TVWeHVh24Fkv0mkV8uA/viewform?usp=publish-editor" target="_blank" class="text-[10px] font-mono bg-purple-500 text-white px-4 py-2 font-bold uppercase hover:bg-white hover:text-black transition-all">Register</a>
+                </div>
+            </div>
+
+            <div class="event-card esports border border-white/10 bg-white/[0.02] p-8 hover:border-purple-500/50 transition-all group">
+                <div class="flex justify-between text-[10px] font-mono mb-6">
+                    <span class="text-purple-500">// ESPORTS</span>
+                    <span class="text-white/20">#ESP_002</span>
+                </div>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-purple-400">BGMI SQUAD</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Battle Royale competition. Surviving the zone requires pure strategy.</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <span class="text-[20px] font-mono text-gray-400 uppercase">Fee: ₹400/Team</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAzDcy67fAHLwjL-xpZ20ZvuJExv0TVWeHVh24Fkv0mkV8uA/viewform?usp=publish-editor" target="_blank" class="text-[10px] font-mono bg-purple-500 text-white px-4 py-2 font-bold uppercase hover:bg-white hover:text-black transition-all">Register</a>
                 </div>
             </div>
 
             <div class="event-card non-tech border border-white/10 bg-white/[0.02] p-8 hover:border-green-500/50 transition-all group">
                 <div class="flex justify-between text-[10px] font-mono mb-6">
                     <span class="text-green-500">// NON-TECHNICAL</span>
-                    <span class="text-white/20">#003</span>
+                    <span class="text-white/20">#NT_001</span>
                 </div>
-                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors">TREASURE_LOG</h4>
-                <p class="text-gray-400 text-sm mb-8 leading-relaxed">Campus-wide scavenger hunt using cryptic riddles and tech clues.</p>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-green-400">TREASURE LOG</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">Solve logic-based riddles to find hidden QR codes across the campus.</p>
                 <div class="flex justify-between items-center border-t border-white/5 pt-6">
-                    <span class="text-[10px] font-mono text-gray-400 uppercase">Fee: Free</span>
-                    <a href="#register" class="text-[10px] font-mono bg-green-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition">Register</a>
+                    <span class="text-[20px] font-mono text-gray-400 uppercase">Fee: FREE</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAzDcy67fAHLwjL-xpZ20ZvuJExv0TVWeHVh24Fkv0mkV8uA/viewform?usp=publish-editor" target="_blank" class="text-[10px] font-mono bg-green-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition-all">Register</a>
+                </div>
+            </div>
+
+            <div class="event-card non-tech border border-white/10 bg-white/[0.02] p-8 hover:border-green-500/50 transition-all group">
+                <div class="flex justify-between text-[10px] font-mono mb-6">
+                    <span class="text-green-500">// NON-TECHNICAL</span>
+                    <span class="text-white/20">#NT_002</span>
+                </div>
+                <h4 class="text-2xl font-bold text-white mb-4 group-hover:text-green-400">CATCH ME</h4>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">A high-speed physical and logic puzzle game involving campus navigation.</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <span class="text-[20px] font-mono text-gray-400 uppercase">Fee: ₹50</span>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAzDcy67fAHLwjL-xpZ20ZvuJExv0TVWeHVh24Fkv0mkV8uA/viewform?usp=publish-editor" target="_blank" class="text-[10px] font-mono bg-green-500 text-black px-4 py-2 font-bold uppercase hover:bg-white transition-all">Register</a>
                 </div>
             </div>
 
@@ -334,7 +607,7 @@ function filterEvents(category) {
             <div class="w-24 h-24 bg-cyan-500/20 rounded-full mx-auto mb-4 flex items-center justify-center border border-cyan-500/30 group-hover:shadow-[0_0_20px_#06b6d4]">
                 <span class="text-3xl">👩‍💻</span>
             </div>
-            <h4 class="text-xl font-bold">Alena</h4>
+            <h4 class="text-xl font-bold">Rohit</h4>
             <p class="text-cyan-400 text-sm uppercase">Lead Developer</p>
             <p class="text-gray-500 mt-2 text-xs">Technical Head & Web Architect</p>
         </div>
@@ -343,7 +616,7 @@ function filterEvents(category) {
             <div class="w-24 h-24 bg-purple-500/20 rounded-full mx-auto mb-4 flex items-center justify-center border border-purple-500/30 group-hover:shadow-[0_0_20px_#a855f7]">
                 <span class="text-3xl">🎮</span>
             </div>
-            <h4 class="text-xl font-bold">Esports Lead</h4>
+            <h4 class="text-xl font-bold">Angerissue09</h4>
             <p class="text-purple-400 text-sm uppercase">Gaming Coordinator</p>
             <p class="text-gray-500 mt-2 text-xs">Tournament Ops & Brackets</p>
         </div>
@@ -361,75 +634,51 @@ function filterEvents(category) {
 </section>
 
 
-    <section id="register" class="py-20 bg-white/5">
-        <div class="max-w-xl mx-auto px-4">
-            <h3 class="text-3xl font-bold mb-8 text-center">SECURE YOUR SPOT</h3>
-        <form action="/register" method="POST" class="space-y-4">
-            <input type="text" name="name" placeholder="Full Name" class="w-full p-4 bg-black border border-white/20 rounded focus:border-cyan-400 outline-none" required>
-            
-            <input type="email" name="email" placeholder="Email Address" class="w-full p-4 bg-black border border-white/20 rounded focus:border-cyan-400 outline-none" required>
-
-            <select name="category" id="eventCategory" class="w-full p-4 bg-black border border-white/20 rounded text-gray-400">
-                <optgroup label="ESPORTS">
-                    <option value="Valorant">Valorant (5v5)</option>
-                    <option value="BGMI">BGMI (Squad)</option>
-                    <option value="Chess">Speed Chess</option>
-                </optgroup>
-                <optgroup label="TECH">
-                    <option value="Hackathon">Hackathon</option>
-                    <option value="WebDesign">UI/UX Design</option>
-                    <option value="Coding">Competitive Coding</option>
-                </optgroup>
-                <optgroup label="SPORTS">
-                    <option value="Futsal">Futsal (5v5)</option>
-                    <option value="Basketball">Basketball (3v3)</option>
-                </optgroup>
-            </select>
-
-
-
-
-            <input type="text" name="team" placeholder="Team Name (Leave blank for Solo)" class="w-full p-4 bg-black border border-white/20 rounded focus:border-purple-500 outline-none">
-            
-            <form id="registrationForm" class="space-y-4">
-            <button type="submit" class="w-full py-4 bg-cyan-500 text-black font-bold uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)]">
-                Register for Ignite 2026
-            </button>
-            </form>
-
-        <script>
-        // Add this inside your existing registration <script> tag
-const successSound = new Audio('https://www.soundjay.com/buttons/sounds/button-10.mp3');
-
-document.getElementById('registrationForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    
-    const response = await fetch('/register', {
-        method: 'POST',
-        body: formData
-    });
-
-    if (response.ok) {
-        // PLAY THE SOUND HERE
-        successSound.play();
-
-        Swal.fire({
-            title: 'Welcome to the Tribe!',
-            text: 'Your registration for Ignite 2026 is confirmed.',
-            icon: 'success',
-            background: '#0f172a',
-            color: '#22d3ee',
-            confirmButtonColor: '#0891b2',
-            confirmButtonText: 'Let\'s Go!'
-        });
-        e.target.reset();
-    }
-};
-            </script>
-            </form>
+<section id="about" class="py-20 bg-[#050505] text-white">
+    <div class="container mx-auto px-6 lg:px-24">
+        
+        <div class="grid lg:grid-cols-2 gap-16 items-center mb-32">
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-cyan-500/20 rounded-2xl blur group-hover:opacity-40 transition"></div>
+                <img src="YOUR_TEAM_PHOTO_URL" alt="Ignite Team" 
+                     class="relative rounded-2xl grayscale hover:grayscale-0 transition duration-500 object-cover w-full h-[400px] border border-white/10">
             </div>
-        </section>
+            <div class="space-y-6">
+                <h2 class="text-5xl font-black tracking-tighter">OUR <span class="text-cyan-400">STORY</span></h2>
+                <div class="bg-white/5 border-l-4 border-cyan-500 p-6 rounded-r-xl">
+                    <p class="text-gray-300 italic font-light">"Ignite is the flagship tech fest born from innovation and the collective spirit of Future Innovators."</p>
+                </div>
+                <p class="text-gray-400 leading-relaxed">What began as a student-driven initiative has grown into a platform that reflects our core values: technical excellence and forward thinking.</p>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-16 items-center flex-row-reverse">
+            <div class="order-2 lg:order-1 space-y-6">
+                <h3 class="text-cyan-400 font-mono text-xs tracking-[0.4em] uppercase">// LEAD_DEVELOPER</h3>
+                <h2 class="text-5xl font-black tracking-tighter">THE <span class="text-cyan-400">ARCHITECT</span></h2>
+                <p class="text-gray-400 leading-relaxed">
+                    Hello, I'm <span class="text-white font-bold">Rohit</span>. I built this platform to bridge the gap between imagination and execution. My focus is on creating seamless digital experiences that empower our technical community.
+                </p>
+                <div class="flex gap-4">
+                    <span class="px-4 py-2 border border-white/10 rounded font-mono text-[10px] text-cyan-500">PYTHON_DEV</span>
+                    <span class="px-4 py-2 border border-white/10 rounded font-mono text-[10px] text-cyan-500">WEB_ARCHITECT</span>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2 relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition"></div>
+                <img src="YOUR_PERSONAL_PHOTO_URL" alt="Alena" 
+                     class="relative w-64 h-64 rounded-full mx-auto object-cover border-2 border-cyan-500/50 p-2">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+            
+
+     
         <script>
     // Set the date we're counting down to
     const countDownDate = new Date("March 15, 2026 09:00:00").getTime();
@@ -457,7 +706,7 @@ document.getElementById('registrationForm').onsubmit = async (e) => {
         
         <div>
             <h5 class="font-bold text-white mb-4 uppercase tracking-widest">Location</h5>
-            <p class="text-gray-400">Your College Name<br>Engineering Block, Phase 1<br>City, State, Zip Code</p>
+            <p class="text-gray-400">Chhotubhai gopalbhai patel institute of technology <br>Engineering Block, Phase 1<br> Bardoli , Gujrat </p>
         </div>
 
         <div>
@@ -479,4 +728,33 @@ document.getElementById('registrationForm').onsubmit = async (e) => {
 
 
 </body>
-</html>
+</html><script>
+function showPage(pageId) {
+    // 1. Find all sections
+    const sections = document.querySelectorAll('section');
+    
+    // 2. Hide every section
+    sections.forEach(section => {
+        section.classList.remove('active-section');
+        section.style.display = 'none';
+    });
+
+    // 3. Show only the section the user clicked
+    const activeSection = document.getElementById(pageId);
+    if (activeSection) {
+        activeSection.classList.add('active-section');
+        // Small timeout to allow the 'display: block' to register before opacity kicks in
+        setTimeout(() => {
+            activeSection.style.opacity = '1';
+        }, 10);
+    }
+    
+    // 4. Scroll to top so the new "page" starts from the beginning
+    window.scrollTo(0, 0);
+}
+
+// Ensure Home is visible on first load
+document.addEventListener('DOMContentLoaded', () => {
+    showPage('home');
+});
+</script>
