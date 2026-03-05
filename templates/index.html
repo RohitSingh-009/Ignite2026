@@ -803,29 +803,66 @@ function filterEvents(category) {
 </script>
 
 
-<footer class="py-12 bg-black border-t border-white/10 mt-20">
-    <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12 text-center md:text-left">
-        <div>
-            <h4 class="text-2xl font-black text-cyan-400">IGNITE 2026</h4>
-            <p class="text-gray-500 mt-2">The ultimate fusion of talent and technology.</p>
-        </div>
-        
-        <div>
-            <h5 class="font-bold text-white mb-4 uppercase tracking-widest">Location</h5>
-            <p class="text-gray-400">Chhotubhai gopalbhai patel institute of technology <br>Engineering Block, Phase 1<br> Bardoli , Gujrat </p>
+<footer class="bg-[#050505] border-t border-white/5 py-16 relative overflow-hidden">
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-cyan-500/5 blur-[100px] rounded-full"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="grid md:grid-cols-4 gap-12 mb-12">
+            
+            <div class="col-span-2 space-y-6">
+                <h2 class="text-3xl font-black text-white tracking-tighter">
+                    IGNITE <span class="text-cyan-400">2026</span>
+                </h2>
+                <p class="text-gray-500 text-sm font-mono leading-relaxed max-w-sm">
+                    The ultimate fusion of talent and technology. A flagship initiative designed to push the boundaries of innovation.
+                </p>
+                <div class="flex gap-4 opacity-50">
+                    <span class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-cyan-400 cursor-pointer">IG</span>
+                    <span class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-cyan-400 cursor-pointer">LI</span>
+                    <span class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-cyan-400 cursor-pointer">GH</span>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <h4 class="text-white font-mono text-[10px] tracking-[0.4em] uppercase opacity-40">// DIRECTORY</h4>
+                <ul class="flex flex-col gap-3 text-gray-400 font-mono text-xs">
+                    <li><a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-cyan-400 transition">HOME.EXE</a></li>
+                    <li><a href="javascript:void(0)" onclick="showPage('events')" class="hover:text-cyan-400 transition">EVENTS.DLL</a></li>
+                    <li><a href="javascript:void(0)" onclick="showPage('snapshots')" class="hover:text-cyan-400 transition">ARCHIVE.ISO</a></li>
+                    <li><a href="javascript:void(0)" onclick="showPage('about')" class="hover:text-cyan-400 transition">CORE_ABOUT.SYS</a></li>
+                </ul>
+            </div>
+
+            <div class="space-y-6">
+                <h4 class="text-white font-mono text-[10px] tracking-[0.4em] uppercase opacity-40">// SYS_MONITOR</h4>
+                <div class="bg-white/[0.02] border border-white/10 p-5 rounded-2xl space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-mono text-gray-500">DATABASE:</span>
+                        <span class="text-[10px] font-mono text-green-500 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> STABLE
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-mono text-gray-500">UPTIME:</span>
+                        <span class="text-[10px] font-mono text-cyan-400">99.98%</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-mono text-gray-500">REGION:</span>
+                        <span class="text-[10px] font-mono text-white/50">AS-SOUTH-1</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div>
-            <h5 class="font-bold text-white mb-4 uppercase tracking-widest">Connect With Us</h5>
-            <div class="flex justify-center md:justify-start gap-6 text-2xl">
-                <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">📸</a>
-                <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">🐦</a>
-                <a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">🔗</a>
-            </div>
+        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+                © 2026 IGNITE_CORE. ALL RIGHTS RESERVED.
+            </p>
+            <p class="text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+                DESIGNED & DEVELOPED BY <span class="text-cyan-500">ALENA</span>
+            </p>
         </div>
-    </div>
-    <div class="text-center text-gray-600 text-xs mt-12 border-t border-white/5 pt-6">
-        &copy; 2026 Ignite Fest | Designed with ❤️ by Alena
     </div>
 </footer>
 
