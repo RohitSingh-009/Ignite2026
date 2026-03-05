@@ -94,7 +94,7 @@ def download_data():
     return send_file(output, download_name="Ignite2026_Registrations.xlsx", as_attachment=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run()

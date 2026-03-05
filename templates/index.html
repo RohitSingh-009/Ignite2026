@@ -116,7 +116,9 @@
 </head>
 <body>
 
-
+<div class="fixed top-0 left-0 w-full h-1 z-[100] bg-white/5">
+    <div id="scrollProgress" class="h-full bg-cyan-500 w-0 transition-all duration-150 shadow-[0_0_10px_#06b6d4]"></div>
+</div>
 
 <canvas id="canvas" class="fixed top-0 left-0 -z-10 w-full h-full"></canvas>
 
@@ -204,25 +206,96 @@ function searchEvents() {
         }
     }
 }
+
+
+function toggleFAQ(id) {
+    const ans = document.getElementById(`ans-${id}`);
+    const icon = document.getElementById(`icon-${id}`);
+    
+    if (ans.classList.contains('hidden')) {
+        ans.classList.remove('hidden');
+        icon.innerText = "-";
+        icon.classList.add('rotate-180');
+    } else {
+        ans.classList.add('hidden');
+        icon.innerText = "+";
+        icon.classList.remove('rotate-180');
+    }
+}
+
+window.onscroll = function() {
+    updateProgressBar();
+};
+
+function updateProgressBar() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    
+    // Progress bar ki width update karein
+    document.getElementById("scrollProgress").style.width = scrolled + "%";
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        menu.classList.add('flex'); // Show menu
+    } else {
+        menu.classList.add('hidden');
+        menu.classList.remove('flex'); // Hide menu
+    }
+}
+
 </script>
 
 
 
 
-    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tighter text-cyan-400">IGNITE 2026</h1>
-            <div class="space-x-6 text-sm uppercase tracking-widest">
-                <nav class="flex gap-8 font-mono text-xs tracking-widest">
-                        <a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-cyan-400">// HOME</a>
-                        <a href="javascript:void(0)" onclick="showPage('events')" class="hover:text-cyan-400">// EVENTS</a>
-                        <a href="javascript:void(0)" onclick="showPage('schedule')" class="hover:text-cyan-400">// SCHEDULE</a>
-                        <a href="javascript:void(0)" onclick="showPage('team')" class="hover:text-cyan-400">// TEAM</a>
-                        <a href="javascript:void(0)" onclick="showPage('about')" class="hover:text-cyan-400">// ABOUT</a> </nav>
-                </nav>  
-            </div>
+<!-- HEADER / NAVBAR -->
+<header class="fixed top-0 w-full z-[100] bg-[#050505]/80 backdrop-blur-md border-b border-white/5 px-6 py-4">
+
+    <div class="container mx-auto flex justify-between items-center">
+
+        <!-- Logo -->
+        <div class="text-xl font-black text-white tracking-tighter">
+            IGNITE <span class="text-cyan-400">2026</span>
         </div>
-    </nav>
+
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex gap-8 font-mono text-[10px] tracking-widest">
+            <a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-cyan-400 transition duration-300">// HOME</a>
+            <a href="javascript:void(0)" onclick="showPage('events')" class="hover:text-cyan-400 transition duration-300">// EVENTS</a>
+            <a href="javascript:void(0)" onclick="showPage('schedule')" class="hover:text-cyan-400 transition duration-300">// SCHEDULE</a>
+            <a href="javascript:void(0)" onclick="showPage('team')" class="hover:text-cyan-400 transition duration-300">// TEAM</a>
+            <a href="javascript:void(0)" onclick="showPage('about')" class="hover:text-cyan-400 transition duration-300">// ABOUT</a>
+        </nav>
+
+        <!-- Mobile Hamburger -->
+        <button onclick="toggleMobileMenu()" class="md:hidden text-cyan-400 flex flex-col gap-1.5 focus:outline-none">
+            <span class="w-6 h-0.5 bg-cyan-400"></span>
+            <span class="w-6 h-0.5 bg-cyan-400"></span>
+            <span class="w-6 h-0.5 bg-cyan-400"></span>
+        </button>
+
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden absolute top-full left-0 w-full bg-[#050505] border-b border-white/10 flex flex-col items-center py-8 gap-6 font-mono text-xs tracking-[0.3em] md:hidden shadow-2xl">
+
+        <a href="javascript:void(0)" onclick="showPage('home'); toggleMobileMenu()" class="text-white hover:text-cyan-400">// HOME</a>
+
+        <a href="javascript:void(0)" onclick="showPage('events'); toggleMobileMenu()" class="text-white hover:text-cyan-400">// EVENTS</a>
+
+        <a href="javascript:void(0)" onclick="showPage('schedule'); toggleMobileMenu()" class="text-white hover:text-cyan-400">// SCHEDULE</a>
+
+        <a href="javascript:void(0)" onclick="showPage('team'); toggleMobileMenu()" class="text-white hover:text-cyan-400">// TEAM</a>
+
+        <a href="javascript:void(0)" onclick="showPage('about'); toggleMobileMenu()" class="text-white hover:text-cyan-400">// ABOUT</a>
+
+    </div>
+
+</header>
 
    
 <section id="home" class="bg-[#050505] text-white">
@@ -675,7 +748,36 @@ function filterEvents(category) {
 </section>
 
 
+<section id="faq" class="py-24 bg-[#050505] text-white">
+    <div class="container mx-auto px-6 max-w-3xl">
+        <div class="mb-12 text-center">
+            <h3 class="text-cyan-400 font-mono text-[10px] tracking-[0.5em] uppercase mb-4">// KNOWLEDGE_BASE</h3>
+            <h2 class="text-5xl font-black tracking-tighter uppercase">F.A.<span class="text-cyan-400">Q</span></h2>
+        </div>
 
+        <div class="space-y-4">
+            <div class="border border-white/10 bg-white/5 rounded-xl overflow-hidden">
+                <button onclick="toggleFAQ(1)" class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition">
+                    <span class="font-mono text-sm tracking-wide">01. HOW DO I REGISTER FOR MULTIPLE EVENTS?</span>
+                    <span id="icon-1" class="text-cyan-400">+</span>
+                </button>
+                <div id="ans-1" class="hidden p-6 pt-0 text-gray-400 text-sm leading-relaxed border-t border-white/5">
+                    You can register for each event individually using the "Register" button on the Event Archive cards. Each event has its own dedicated Google Form.
+                </div>
+            </div>
+
+            <div class="border border-white/10 bg-white/5 rounded-xl overflow-hidden">
+                <button onclick="toggleFAQ(2)" class="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition">
+                    <span class="font-mono text-sm tracking-wide">02. IS THERE A COMBO DISCOUNT FOR FEES?</span>
+                    <span id="icon-2" class="text-cyan-400">+</span>
+                </button>
+                <div id="ans-2" class="hidden p-6 pt-0 text-gray-400 text-sm leading-relaxed border-t border-white/5">
+                    Currently, fees are event-specific. However, keep an eye on our "Snapshots" section for any upcoming promo-code announcements!
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
             
 
      
@@ -694,6 +796,10 @@ function filterEvents(category) {
         // Assuming you add an ID 'countdown' to your HTML
         document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m ";
     }, 1000);
+
+
+
+
 </script>
 
 
