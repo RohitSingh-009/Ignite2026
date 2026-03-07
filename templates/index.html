@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ignite 2026 | Where Talent Meets Tech</title>
-    <link rel="icon" type="image/png" href="IG.png">
-
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IG.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
                 /* Hide all sections except the home section by default */
@@ -325,9 +324,17 @@ function toggleMobileMenu() {
     <div class="container mx-auto flex justify-between items-center">
 
         <!-- Logo -->
-        <h1 class="glitch text-4xl md:text-6xl font-black tracking-tighter uppercase relative" data-text="IGNITE 2026">
-            IGNITE <span class="text-cyan-400">2026</span>
-        </h1>
+        <div class="flex items-center gap-3">
+    
+    <img src="{{ url_for('static', filename='images/IG.png') }}" 
+         alt="IGNITE Logo"
+         class="w-12 h-12 object-contain">
+
+    <h1 class="glitch text-2xl md:text-3xl font-black tracking-tighter uppercase" data-text="IGNITE 2026">
+        IGNITE <span class="text-cyan-400">2026</span>
+    </h1>
+
+</div>
 
         <!-- Desktop Menu -->
         <nav class="hidden md:flex gap-8 font-mono text-[10px] tracking-widest">
@@ -367,9 +374,11 @@ function toggleMobileMenu() {
 
     </div>
 
-<title>IGNITE 2026 | Where Talent Meets Technology</title>
-<link rel="icon" type="image/png" href="IG.png">
 
+    
+
+    
+<title>Ignite 2026 | Where Talent Meets Tech</title>
 <meta name="title" content="IGNITE 2026 |   CGPIT Tech Fest">
 <meta name="description" content="Official website for Ignite 2026. Join us for Code War, Valorant Ops, and more at CGPIT.">
 
@@ -463,8 +472,9 @@ function toggleMobileMenu() {
 
             <div class="relative group">
                 <div class="absolute -inset-1 bg-cyan-500/20 rounded-2xl blur group-hover:opacity-40 transition"></div>
-                <img src="Maliba.jpg" alt="Our Story"
-                     class="relative rounded-2xl grayscale hover:grayscale-0 transition duration-500 object-cover w-full h-[500px] border border-white/10">
+               <img src="{{ url_for('static', filename='images/Maliba.jpeg') }}" 
+     alt="Our Story" 
+     class="relative rounded-2xl grayscale hover:grayscale-0 transition duration-500 object-cover w-full h-[500px] border border-white/10">
             </div>
 
             <div class="space-y-8">
