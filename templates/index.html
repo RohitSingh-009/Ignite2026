@@ -867,8 +867,10 @@ function filterEvents(category) {
             </div>
             <div class="order-1 lg:order-2 relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition"></div>
-                <img src="YOUR_PERSONAL_PHOTO_URL" alt="Alena" 
-                     class="relative w-64 h-64 rounded-full mx-auto object-cover border-2 border-cyan-500/50 p-2">
+                <img src="{{ url_for('static', filename='images/PP.jpeg') }}" alt="Alena" 
+                     class="relative w-64 h-64 rounded-full mx-auto object-cover border-2 border-cyan-500/50 p-2"
+                     class="relative rounded-2xl grayscale hover:grayscale-0 transition duration-500 object-cover w-full h-[400px] border border-white/10">
+
             </div>
         </div>
 
